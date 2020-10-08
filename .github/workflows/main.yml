@@ -27,11 +27,11 @@ jobs:
                     ref: ${{ env.GRPC_VERSION }}
                     submodules: recursive
             -   name: Build grpc_php_plugin
-                workging_dir: tmp/grpc
+                working-directory: tmp/grpc
                 run: |
                     make grpc_php_plugin
             -   name: Copy gRPC files to project dir
-                workging_dir: tmp/grpc
+                working-directory: tmp/grpc
                 run: |
                     cp bins/opt/grpc_php_plugin ${{ github.workspace }}/src/Sitko.Grpc.Tools.Php/Tools/grpc_php_client_plugin
                     cp bins/opt/protobuf/protoc ${{ github.workspace }}/src/Sitko.Grpc.Tools.Php/Tools/protoc
