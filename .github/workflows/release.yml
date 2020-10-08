@@ -38,14 +38,12 @@ jobs:
             -   name: Copy gRPC files to project dir
                 working-directory: tmp/grpc
                 run: |
-                    cp bins/opt/grpc_php_plugin ${{ github.workspace }}/src/Sitko.Grpc.Tools.Php/Tools/grpc_php_client_plugin
-                    cp bins/opt/protobuf/protoc ${{ github.workspace }}/src/Sitko.Grpc.Tools.Php/Tools/protoc
-                    mkdir -p ${{ github.workspace }}/src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
-                    cp third_party/protobuf/src/google/protobuf/*.proto ${{ github.workspace }}/src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
-            -   name: Add nuget source
-                run: dotnet nuget add source ${{ secrets.NUGET_HOST }} -n ${{ secrets.NUGET_HOST }} --store-password-in-clear-text -u ${{ secrets.NUGET_USER }} -p ${{ secrets.NUGET_PASSWORD }} || true
+                    cp bins/opt/grpc_php_plugin ../../src/Sitko.Grpc.Tools.Php/Tools/grpc_php_plugin
+                    cp bins/opt/protobuf/protoc ../..src/Sitko.Grpc.Tools.Php/Tools/protoc
+                    mkdir -p ../../src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
+                    cp third_party/protobuf/src/google/protobuf/*.proto ../..src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
             -   name: Pack library
                 run: dotnet pack -c Release /p:Version=${{ steps.prep.outputs.version }} -o packages
             -   name: Publish nuget package
-                run: dotnet nuget push packages/*.nupkg -s ${{ secrets.NUGET_HOST }} -k ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+                run: dotnet nuget push packages/*.nupkg -k ${{ secrets.NUGET_API_KEY }}
                     
