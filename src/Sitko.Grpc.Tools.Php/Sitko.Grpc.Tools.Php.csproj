@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.Tools" Version="2.32.0" PrivateAssets="None" />
+    <None Pack="true" PackagePath="buildTransitive" Include="Build\**\*.xml; Build\**\*.props; Build\**\*.targets;" />
+    <None Pack="true" PackagePath="tools" Include="Tools\*;" />
+    <None Pack="true" PackagePath="proto" Include="Proto\*;" />
+  </ItemGroup>
+
+</Project>

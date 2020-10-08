@@ -1,0 +1,32 @@
+name: CI
+
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+
+jobs:
+    build:
+        runs-on: self-hosted
+        container: ghcr.io/sitkoru/actions-container
+        env:
+            GRPC_VERSION: v1.32.x
+        steps:
+            -   uses: actions/checkout@v2
+            -   uses: actions/setup-dotnet@v1
+                with:
+                    dotnet-version: '3.1.x'
+            -   name: Build grpc_php_plugin
+                run: |
+                    apt update
+                    apt-get install -y build-essential autoconf libtool pkg-config
+                    git clone --recursive -b ${{ env.GRPC_VERSION }} https://github.com/grpc/grpc
+                    cd grpc
+                    make grpc_php_plugin
+                    cp bins/opt/grpc_php_plugin ../src/Sitko.Grpc.Tools.Php/Tools/grpc_php_client_plugin
+                    cp bins/opt/protobuf/protoc ../src/Sitko.Grpc.Tools.Php/Tools/protoc
+                    mkdir ../src/Sitko.Grpc.Tools.Php/Tools/Proto/include/google/protobuf
+                    cp third_party/protobuf/src/google/protobuf/*.proto ../src/Sitko.Grpc.Tools.Php/Tools/Proto/include/google/protobuf
+            -   name: Create packages
+                run: dotnet pack -c Release

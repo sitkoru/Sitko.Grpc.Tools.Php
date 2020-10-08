@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+
+  <Target Name="PhpCompile" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' And $([MSBuild]::IsOSPlatform('Linux'))">
+    <PropertyGroup>
+      <PhpCompile_ToolsDir>$( [System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)../tools) )</PhpCompile_ToolsDir>
+      <PhpCompile_StandardImportsPath>$( [System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)../tools) )</PhpCompile_StandardImportsPath>
+    </PropertyGroup>
+    <MakeDir Directories="%(PhpProtobuf.OutputDir)"/>
+    <MakeDir Directories="%(PhpProtobuf.GrpcOutputDir)"/>
+    <ProtoCompile
+      Generator="php" Protobuf="%(PhpProtobuf.Identity)"
+      OutputDir="%(PhpProtobuf.OutputDir)"
+      ProtoPath="%(PhpProtobuf.AdditionalImportDirs);$(PhpCompile_StandardImportsPath);%(PhpProtobuf.ProtoRoot)"
+      ToolExe="$(PhpCompile_ToolsDir)/protoc"
+      GrpcPluginExe="$(PhpCompile_ToolsDir)/grpc_php_client_plugin"
+    />
+  </Target>
+</Project>
