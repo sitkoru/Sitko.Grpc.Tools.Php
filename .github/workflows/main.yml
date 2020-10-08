@@ -26,7 +26,7 @@ jobs:
                     make grpc_php_plugin
                     cp bins/opt/grpc_php_plugin ../src/Sitko.Grpc.Tools.Php/Tools/grpc_php_client_plugin
                     cp bins/opt/protobuf/protoc ../src/Sitko.Grpc.Tools.Php/Tools/protoc
-                    mkdir ../src/Sitko.Grpc.Tools.Php/Tools/Proto/include/google/protobuf
-                    cp third_party/protobuf/src/google/protobuf/*.proto ../src/Sitko.Grpc.Tools.Php/Tools/Proto/include/google/protobuf
+                    mkdir -p ../src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
+                    cp third_party/protobuf/src/google/protobuf/*.proto ../src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
             -   name: Create packages
                 run: dotnet pack -c Release

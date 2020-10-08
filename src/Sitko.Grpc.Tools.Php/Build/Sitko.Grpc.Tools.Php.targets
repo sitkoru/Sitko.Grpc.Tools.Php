@@ -7,7 +7,7 @@
   <Target Name="PhpCompile" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' And $([MSBuild]::IsOSPlatform('Linux'))">
     <PropertyGroup>
       <PhpCompile_ToolsDir>$( [System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)../tools) )</PhpCompile_ToolsDir>
-      <PhpCompile_StandardImportsPath>$( [System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)../tools) )</PhpCompile_StandardImportsPath>
+      <PhpCompile_StandardImportsPath>$( [System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)../proto) )</PhpCompile_StandardImportsPath>
     </PropertyGroup>
     <MakeDir Directories="%(PhpProtobuf.OutputDir)"/>
     <MakeDir Directories="%(PhpProtobuf.GrpcOutputDir)"/>
