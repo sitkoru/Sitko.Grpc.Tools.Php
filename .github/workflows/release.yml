@@ -22,17 +22,26 @@ jobs:
             -   uses: actions/setup-dotnet@v1
                 with:
                     dotnet-version: '3.1.x'
+            -   name: Install build dependecies
+                run: apt update && apt-get install -y build-essential autoconf libtool pkg-config
+            -   name: Clone grpc repo
+                uses: actions/checkout@v2
+                with:
+                    repository: "grpc/grpc"
+                    path: tmp/grpc
+                    ref: ${{ env.GRPC_VERSION }}
+                    submodules: recursive
             -   name: Build grpc_php_plugin
+                workging_dir: tmp/grpc
                 run: |
-                    apt update
-                    apt-get install -y build-essential autoconf libtool pkg-config
-                    git clone --recursive -b ${{ env.GRPC_VERSION }} https://github.com/grpc/grpc
-                    cd grpc
                     make grpc_php_plugin
-                    cp bins/opt/grpc_php_plugin ../src/Sitko.Grpc.Tools.Php/Tools/grpc_php_client_plugin
-                    cp bins/opt/protobuf/protoc ../src/Sitko.Grpc.Tools.Php/Tools/protoc
-                    mkdir -p ../src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
-                    cp third_party/protobuf/src/google/protobuf/*.proto ../src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
+            -   name: Copy gRPC files to project dir
+                workging_dir: tmp/grpc
+                run: |
+                    cp bins/opt/grpc_php_plugin ${{ github.workspace }}/src/Sitko.Grpc.Tools.Php/Tools/grpc_php_client_plugin
+                    cp bins/opt/protobuf/protoc ${{ github.workspace }}/src/Sitko.Grpc.Tools.Php/Tools/protoc
+                    mkdir -p ${{ github.workspace }}/src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
+                    cp third_party/protobuf/src/google/protobuf/*.proto ${{ github.workspace }}/src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
             -   name: Add nuget source
                 run: dotnet nuget add source ${{ secrets.NUGET_HOST }} -n ${{ secrets.NUGET_HOST }} --store-password-in-clear-text -u ${{ secrets.NUGET_USER }} -p ${{ secrets.NUGET_PASSWORD }} || true
             -   name: Pack library
