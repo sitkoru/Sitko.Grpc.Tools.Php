@@ -1,23 +1,23 @@
-# Sitko.Core
+# Sitko.Grpc.Tools.Php
 
-Opinionated framework on top of .NET Core and ASP.NET Core for building microservices. 
+MSBuild Target for compiling proto-files to php 
 
-Provides base application and modules for fast application building.
+# Installation
 
-# Modules
+```
+dotnet add package Sitko.Grpc.Tools.Php
+```
 
-- Logging
-- Tracing
-- Service discovery
-- Database access
-- Search
-- Queue 
-- GRPC
-- Storage
-- Email 
-- Unit testing.
+# Basic usage
 
-# Using
+```xml
+<ItemGroup>
+    <PhpProtobuf Include="**/*.proto" OutputDir="Php" />
+</ItemGroup>
+```
 
-// TODO
+# Limitations
+
+Works only on Linux x64 for now
+
 

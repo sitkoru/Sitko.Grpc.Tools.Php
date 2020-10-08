@@ -2,10 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <!--<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>-->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>George Drak</Authors>
+    <Company>Sitko.Ru</Company>
+    <Product>Sitko.Grpc.Tools.Php</Product>
+    <Description>MSBuild Target for compiling proto-files to php </Description>
+    <Summary>MSBuild Target for compiling proto-files to php </Summary>
+    <Copyright>Copyright © Sitko.ru 2020</Copyright>
+    <RepositoryUrl>https://github.com/sitkoru/Sitko.Grpc.Tools.Php</RepositoryUrl>
+    <PackageIcon>packageIcon.png</PackageIcon>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Grpc.Tools" Version="2.32.0" PrivateAssets="None" />
+    <None Include="..\..\LICENSE.md" Pack="true" PackagePath="LICENSE.md" />
+    <None Include="..\..\packageIcon.png" Pack="true" PackagePath="\" />
     <None Pack="true" PackagePath="buildTransitive" Include="Build/**/*.xml; Build/**/*.props; Build/**/*.targets;" />
     <None Pack="true" PackagePath="tools" Include="Tools/*;" />
     <None Pack="true" PackagePath="proto/google/protobuf" Include="Proto/google/protobuf/*.proto;" />
