@@ -8,7 +8,7 @@ on:
 
 jobs:
     build:
-        runs-on: self-hosted
+        runs-on: ubuntu-latest
         container: ghcr.io/sitkoru/actions-container
         env:
             GRPC_VERSION: v1.32.x
@@ -17,9 +17,17 @@ jobs:
             -   uses: actions/setup-dotnet@v1
                 with:
                     dotnet-version: '3.1.x'
+            - name: Cache gRPC
+              id: cache-grpc
+              uses: actions/cache@v2
+              with:
+                  path: tmp/grpc
+                  key: ${{ runner.os }}-grpc-${{ env.GRPC_VERSION }}
             -   name: Install build dependecies
+                if: steps.cache-grpc.outputs.cache-hit != 'true'
                 run: apt update && apt-get install -y build-essential autoconf libtool pkg-config
             -   name: Clone grpc repo
+                if: steps.cache-grpc.outputs.cache-hit != 'true'
                 uses: actions/checkout@v2
                 with:
                     repository: "grpc/grpc"
@@ -27,6 +35,7 @@ jobs:
                     ref: ${{ env.GRPC_VERSION }}
                     submodules: recursive
             -   name: Build grpc_php_plugin
+                if: steps.cache-grpc.outputs.cache-hit != 'true'
                 working-directory: tmp/grpc
                 run: |
                     make grpc_php_plugin
