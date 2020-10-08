@@ -26,7 +26,9 @@ jobs:
               id: cache-grpc
               uses: actions/cache@v2
               with:
-                  path: tmp/grpc
+                  path: |
+                      tmp/grpc/bins/opt
+                      tmp/grpc/third_party/protobuf/src/google/protobuf
                   key: ${{ runner.os }}-grpc-${{ env.GRPC_VERSION }}
             -   name: Install build dependecies
                 if: steps.cache-grpc.outputs.cache-hit != 'true'
