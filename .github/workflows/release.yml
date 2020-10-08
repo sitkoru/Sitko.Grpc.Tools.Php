@@ -39,9 +39,9 @@ jobs:
                 working-directory: tmp/grpc
                 run: |
                     cp bins/opt/grpc_php_plugin ../../src/Sitko.Grpc.Tools.Php/Tools/grpc_php_plugin
-                    cp bins/opt/protobuf/protoc ../..src/Sitko.Grpc.Tools.Php/Tools/protoc
+                    cp bins/opt/protobuf/protoc ../../src/Sitko.Grpc.Tools.Php/Tools/protoc
                     mkdir -p ../../src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
-                    cp third_party/protobuf/src/google/protobuf/*.proto ../..src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
+                    cp third_party/protobuf/src/google/protobuf/*.proto ../../src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
             -   name: Pack library
                 run: dotnet pack -c Release /p:Version=${{ steps.prep.outputs.version }} -o packages
             -   name: Publish nuget package
