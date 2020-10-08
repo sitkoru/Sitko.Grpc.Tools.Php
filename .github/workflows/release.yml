@@ -13,6 +13,12 @@ jobs:
             GRPC_VERSION: v1.32.x
         steps:
             -   uses: actions/checkout@v2
+            -   name: Prepare
+                id: prep
+                shell: bash
+                run: |
+                    VERSION=${GITHUB_REF#refs/tags/}
+                    echo ::set-output name=version::${VERSION}
             -   uses: actions/setup-dotnet@v1
                 with:
                     dotnet-version: '3.1.x'
