@@ -16,7 +16,7 @@
       OutputDir="%(PhpProtobuf.OutputDir)"
       ProtoPath="%(PhpProtobuf.AdditionalImportDirs);$(PhpCompile_StandardImportsPath);%(PhpProtobuf.ProtoRoot)"
       ToolExe="$(PhpCompile_ToolsDir)/protoc"
-      GrpcPluginExe="$(PhpCompile_ToolsDir)/grpc_php_client_plugin"
+      GrpcPluginExe="$(PhpCompile_ToolsDir)/grpc_php_plugin"
     />
   </Target>
 </Project>
