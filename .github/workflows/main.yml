@@ -11,7 +11,7 @@ jobs:
         runs-on: ubuntu-latest
         container: ghcr.io/sitkoru/actions-container
         env:
-            GRPC_VERSION: v1.32.x
+            GRPC_VERSION: v1.34.x
         steps:
             -   uses: actions/checkout@v2
             -   uses: actions/setup-dotnet@v1
