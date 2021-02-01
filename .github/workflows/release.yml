@@ -10,7 +10,7 @@ jobs:
         runs-on: ubuntu-latest
         container: ghcr.io/sitkoru/actions-container
         env:
-            GRPC_VERSION: v1.34.0
+            GRPC_VERSION: v1.35.0
         steps:
             -   uses: actions/checkout@v2
             -   name: Prepare
@@ -21,20 +21,10 @@ jobs:
                     echo ::set-output name=version::${VERSION}
             -   uses: actions/setup-dotnet@v1
                 with:
-                    dotnet-version: '3.1.x'
-            - name: Cache gRPC
-              id: cache-grpc
-              uses: actions/cache@v2
-              with:
-                  path: |
-                      tmp/grpc/bins/opt
-                      tmp/grpc/third_party/protobuf/src/google/protobuf
-                  key: ${{ runner.os }}-grpc-${{ env.GRPC_VERSION }}
+                    dotnet-version: '5.0.x'
             -   name: Install build dependecies
-                if: steps.cache-grpc.outputs.cache-hit != 'true'
-                run: apt update && apt-get install -y build-essential autoconf libtool pkg-config
+                run: apt update && apt-get install -y build-essential autoconf libtool pkg-config cmake
             -   name: Clone grpc repo
-                if: steps.cache-grpc.outputs.cache-hit != 'true'
                 uses: actions/checkout@v2
                 with:
                     repository: "grpc/grpc"
@@ -42,15 +32,18 @@ jobs:
                     ref: ${{ env.GRPC_VERSION }}
                     submodules: recursive
             -   name: Build grpc_php_plugin
-                if: steps.cache-grpc.outputs.cache-hit != 'true'
                 working-directory: tmp/grpc
                 run: |
+                    mkdir -p cmake/build
+                    cd cmake/build
+                    cmake ../..
+                    make protoc
                     make grpc_php_plugin
             -   name: Copy gRPC files to project dir
                 working-directory: tmp/grpc
                 run: |
-                    cp bins/opt/grpc_php_plugin ../../src/Sitko.Grpc.Tools.Php/Tools/grpc_php_plugin
-                    cp bins/opt/protobuf/protoc ../../src/Sitko.Grpc.Tools.Php/Tools/protoc
+                    cp cmake/build/grpc_php_plugin ../../src/Sitko.Grpc.Tools.Php/Tools/grpc_php_plugin
+                    cp cmake/build/third_party/protobuf/protoc ../../src/Sitko.Grpc.Tools.Php/Tools/protoc
                     mkdir -p ../../src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
                     cp third_party/protobuf/src/google/protobuf/*.proto ../../src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
             -   name: Pack library
