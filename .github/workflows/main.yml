@@ -17,19 +17,9 @@ jobs:
             -   uses: actions/setup-dotnet@v1
                 with:
                     dotnet-version: '5.0.x'
-            - name: Cache gRPC
-              id: cache-grpc
-              uses: actions/cache@v2
-              with:
-                  path: |
-                    tmp/grpc/bins/opt
-                    tmp/grpc/third_party/protobuf/src/google/protobuf
-                  key: ${{ runner.os }}-grpc-${{ env.GRPC_VERSION }}
             -   name: Install build dependecies
-                if: steps.cache-grpc.outputs.cache-hit != 'true'
                 run: apt update && apt-get install -y build-essential autoconf libtool pkg-config cmake
             -   name: Clone grpc repo
-                if: steps.cache-grpc.outputs.cache-hit != 'true'
                 uses: actions/checkout@v2
                 with:
                     repository: "grpc/grpc"
@@ -37,7 +27,6 @@ jobs:
                     ref: ${{ env.GRPC_VERSION }}
                     submodules: recursive
             -   name: Build grpc_php_plugin
-                if: steps.cache-grpc.outputs.cache-hit != 'true'
                 working-directory: tmp/grpc
                 run: |
                     mkdir -p cmake/build
