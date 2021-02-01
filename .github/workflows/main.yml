@@ -11,12 +11,12 @@ jobs:
         runs-on: ubuntu-latest
         container: ghcr.io/sitkoru/actions-container
         env:
-            GRPC_VERSION: v1.32.x
+            GRPC_VERSION: v1.35.x
         steps:
             -   uses: actions/checkout@v2
             -   uses: actions/setup-dotnet@v1
                 with:
-                    dotnet-version: '3.1.x'
+                    dotnet-version: '5.0.x'
             - name: Cache gRPC
               id: cache-grpc
               uses: actions/cache@v2
