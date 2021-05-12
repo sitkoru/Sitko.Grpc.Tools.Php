@@ -9,16 +9,13 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-        container: ghcr.io/sitkoru/actions-container
+        container: mcr.microsoft.com/dotnet/sdk:5.0
         env:
             GRPC_VERSION: v1.37.x
         steps:
             -   uses: actions/checkout@v2.3.4
-            -   uses: actions/setup-dotnet@v1.8.0
-                with:
-                    dotnet-version: '5.0.x'
             -   name: Install build dependecies
-                run: apt update && apt-get install -y build-essential autoconf libtool pkg-config cmake
+                run: apt update && apt install -y build-essential autoconf libtool pkg-config cmake
             -   name: Clone grpc repo
                 uses: actions/checkout@v2.3.4
                 with:
