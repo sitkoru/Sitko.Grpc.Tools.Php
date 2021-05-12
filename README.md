@@ -1,6 +1,6 @@
 # Sitko.Grpc.Tools.Php
 
-![Nuget](https://img.shields.io/nuget/v/Sitko.Grpc.Tools.Php)
+[![Nuget](https://img.shields.io/nuget/v/Sitko.Grpc.Tools.Php)](https://www.nuget.org/packages/Sitko.Grpc.Tools.Php/)
 
 MSBuild Target for generate php files from gRPC
 
