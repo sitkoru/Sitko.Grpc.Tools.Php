@@ -13,14 +13,14 @@ jobs:
         env:
             GRPC_VERSION: v1.37.x
         steps:
-            -   uses: actions/checkout@v2
+            -   uses: actions/checkout@v2.3.4
             -   uses: actions/setup-dotnet@v1
                 with:
                     dotnet-version: '5.0.x'
             -   name: Install build dependecies
                 run: apt update && apt-get install -y build-essential autoconf libtool pkg-config cmake
             -   name: Clone grpc repo
-                uses: actions/checkout@v2
+                uses: actions/checkout@v2.3.4
                 with:
                     repository: "grpc/grpc"
                     path: tmp/grpc
