@@ -31,9 +31,9 @@ jobs:
                 run: |
                     mkdir -p cmake/build
                     cd cmake/build
-                    cmake ../..
-                    make protoc
-                    make grpc_php_plugin
+                    cmake -j$(nproc) ../..
+                    make -j$(nproc) protoc
+                    make -j$(nproc) grpc_php_plugin
             -   name: Copy gRPC files to project dir
                 working-directory: tmp/grpc
                 run: |
