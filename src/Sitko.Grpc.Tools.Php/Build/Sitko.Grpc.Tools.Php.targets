@@ -4,19 +4,25 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
 
-  <Target Name="PhpCompile" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' And '@(PhpProtobuf)' != '' And $([MSBuild]::IsOSPlatform('Linux'))">
+  <Target Name="ProtoPhp_SetOutputDir" Condition=" '@(Protobuf)' != '' " AfterTargets="Build">
     <PropertyGroup>
-      <PhpCompile_ToolsDir>$( [System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)../tools) )</PhpCompile_ToolsDir>
-      <PhpCompile_StandardImportsPath>$( [System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)../proto) )</PhpCompile_StandardImportsPath>
+      <ProtoPhp_OutputDir>%(Protobuf.PhpOutputDir)</ProtoPhp_OutputDir>
     </PropertyGroup>
-    <MakeDir Directories="%(PhpProtobuf.OutputDir)"/>
-    <MakeDir Directories="%(PhpProtobuf.GrpcOutputDir)"/>
+    <CallTarget Targets="ProtoPhpCompile" Condition="  '$(ProtoPhp_OutputDir)' != '' "/>
+  </Target>
+
+  <Target Name="ProtoPhpCompile">
+    <PropertyGroup>
+      <ProtoPhpCompile_ToolsDir>$( [System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)../tools) )</ProtoPhpCompile_ToolsDir>
+      <ProtoPhpCompile_StandardImportsPath>$( [System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)../proto) )</ProtoPhpCompile_StandardImportsPath>
+    </PropertyGroup>
+    <MakeDir Directories="%(Protobuf.PhpOutputDir)"/>
     <ProtoCompile
-      Generator="php" Protobuf="%(PhpProtobuf.Identity)"
-      OutputDir="%(PhpProtobuf.OutputDir)"
-      ProtoPath="%(PhpProtobuf.AdditionalImportDirs);$(PhpCompile_StandardImportsPath);%(PhpProtobuf.ProtoRoot)"
-      ToolExe="$(PhpCompile_ToolsDir)/protoc"
-      GrpcPluginExe="$(PhpCompile_ToolsDir)/grpc_php_plugin"
+      Generator="php" Protobuf="%(Protobuf.Identity)"
+      OutputDir="%(Protobuf.PhpOutputDir)"
+      ProtoPath="%(Protobuf.AdditionalImportDirs);$(ProtoPhpCompile_StandardImportsPath);%(Protobuf.ProtoRoot)"
+      ToolExe="$(ProtoPhpCompile_ToolsDir)/protoc"
+      GrpcPluginExe="$(ProtoPhpCompile_ToolsDir)/grpc_php_plugin"
     />
   </Target>
 </Project>
