@@ -1,3 +1,10 @@
+# [2.0.0-beta.3](https://github.com/sitkoru/Sitko.Grpc.Tools.Php/compare/2.0.0-beta.2...2.0.0-beta.3) (2021-09-01)
+
+
+### Bug Fixes
+
+* **target:** run only on Linux ([f709498](https://github.com/sitkoru/Sitko.Grpc.Tools.Php/commit/f709498559e0967721fd9a88eacb4ae68473fc8c))
+
 # [2.0.0-beta.2](https://github.com/sitkoru/Sitko.Grpc.Tools.Php/compare/2.0.0-beta.1...2.0.0-beta.2) (2021-09-01)
 
 
