@@ -25,6 +25,7 @@ ProjectSection(SolutionItems) = preProject
 	LICENSE.md = LICENSE.md
 	packageIcon.png = packageIcon.png
 	README.md = README.md
+	release.config.js = release.config.js
 EndProjectSection
 EndProject
 Global
