@@ -12,12 +12,11 @@ dotnet add package Sitko.Grpc.Tools.Php
 
 # Basic usage
 
-Add PhpProtobuf target next to Protobuf
+Add PhpOutputDir property to Protobuf Item
 
 ```xml
 <ItemGroup>
-    <Protobuf Include="**/*.proto" GrpcServices="Both"/>
-    <PhpProtobuf Include="**/*.proto" ProtoRoot="Proto" OutputDir="Php"/>
+    <Protobuf Include="**/*.proto" GrpcServices="Both" PhpOutputDir="Php"/>
 </ItemGroup>
 ```
 
