@@ -1,3 +1,10 @@
+# [2.0.0-beta.2](https://github.com/sitkoru/Sitko.Grpc.Tools.Php/compare/2.0.0-beta.1...2.0.0-beta.2) (2021-09-01)
+
+
+### Bug Fixes
+
+* **ci:** push prereleases to nuget ([c131a83](https://github.com/sitkoru/Sitko.Grpc.Tools.Php/commit/c131a83a17594888611e5b0b9a2d9633517cc0ac))
+
 # [2.0.0-beta.1](https://github.com/sitkoru/Sitko.Grpc.Tools.Php/compare/1.37.1...2.0.0-beta.1) (2021-09-01)
 
 
