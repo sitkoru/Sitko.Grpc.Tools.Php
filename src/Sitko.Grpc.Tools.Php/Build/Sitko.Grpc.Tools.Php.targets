@@ -8,7 +8,7 @@
     <PropertyGroup>
       <ProtoPhp_OutputDir>%(Protobuf.PhpOutputDir)</ProtoPhp_OutputDir>
     </PropertyGroup>
-    <CallTarget Targets="ProtoPhpCompile" Condition="  '$(ProtoPhp_OutputDir)' != '' "/>
+    <CallTarget Targets="ProtoPhpCompile" Condition="  '$(ProtoPhp_OutputDir)' != '' And $([MSBuild]::IsOSPlatform('Linux')) "/>
   </Target>
 
   <Target Name="ProtoPhpCompile">
