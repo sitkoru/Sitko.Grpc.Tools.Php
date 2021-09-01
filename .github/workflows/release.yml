@@ -1,50 +1,50 @@
 name: Release
 
 on:
-    push:
-        tags:
-            - '*.*.*'
+  release:
+    types:
+      - published
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        container: mcr.microsoft.com/dotnet/sdk:5.0
-        env:
-            GRPC_VERSION: v1.37.x
-        steps:
-            -   uses: actions/checkout@v2.3.4
-            -   name: Prepare
-                id: prep
-                shell: bash
-                run: |
-                    VERSION=${GITHUB_REF#refs/tags/}
-                    echo ::set-output name=version::${VERSION}
-            -   name: Install build dependecies
-                run: apt update && apt-get install -y build-essential autoconf libtool pkg-config cmake
-            -   name: Clone grpc repo
-                uses: actions/checkout@v2.3.4
-                with:
-                    repository: "grpc/grpc"
-                    path: tmp/grpc
-                    ref: ${{ env.GRPC_VERSION }}
-                    submodules: recursive
-            -   name: Build grpc_php_plugin
-                working-directory: tmp/grpc
-                run: |
-                    mkdir -p cmake/build
-                    cd cmake/build
-                    cmake -j$(nproc) ../..
-                    make -j$(nproc) protoc
-                    make -j$(nproc) grpc_php_plugin
-            -   name: Copy gRPC files to project dir
-                working-directory: tmp/grpc
-                run: |
-                    cp cmake/build/grpc_php_plugin ../../src/Sitko.Grpc.Tools.Php/Tools/grpc_php_plugin
-                    cp cmake/build/third_party/protobuf/protoc ../../src/Sitko.Grpc.Tools.Php/Tools/protoc
-                    mkdir -p ../../src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
-                    cp third_party/protobuf/src/google/protobuf/*.proto ../../src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
-            -   name: Pack library
-                run: dotnet pack -c Release /p:Version=${{ steps.prep.outputs.version }} -o packages
-            -   name: Publish nuget package
-                run: dotnet nuget push packages/*.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
-                    
+  build:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/dotnet/sdk:5.0
+    env:
+      GRPC_VERSION: v1.39.x
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Prepare
+        id: prep
+        shell: bash
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo ::set-output name=version::${VERSION}
+      - name: Install build dependecies
+        run: apt update && apt-get install -y build-essential autoconf libtool pkg-config cmake
+      - name: Clone grpc repo
+        uses: actions/checkout@v2.3.4
+        with:
+          repository: "grpc/grpc"
+          path: tmp/grpc
+          ref: ${{ env.GRPC_VERSION }}
+          submodules: recursive
+      - name: Build grpc_php_plugin
+        working-directory: tmp/grpc
+        run: |
+          mkdir -p cmake/build
+          cd cmake/build
+          cmake -j$(nproc) ../..
+          make -j$(nproc) protoc
+          make -j$(nproc) grpc_php_plugin
+      - name: Copy gRPC files to project dir
+        working-directory: tmp/grpc
+        run: |
+          cp cmake/build/grpc_php_plugin ../../src/Sitko.Grpc.Tools.Php/Tools/grpc_php_plugin
+          cp cmake/build/third_party/protobuf/protoc ../../src/Sitko.Grpc.Tools.Php/Tools/protoc
+          mkdir -p ../../src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
+          cp third_party/protobuf/src/google/protobuf/*.proto ../../src/Sitko.Grpc.Tools.Php/Proto/google/protobuf
+      - name: Pack library
+        run: dotnet pack -c Release /p:Version=${{ steps.prep.outputs.version }} -o packages
+      - name: Publish nuget package
+        run: dotnet nuget push packages/*.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_API_KEY }}
+
