@@ -12,7 +12,7 @@ jobs:
     env:
       GRPC_VERSION: v1.39.x
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v2.3.5
       - name: Prepare
         id: prep
         shell: bash
@@ -22,7 +22,7 @@ jobs:
       - name: Install build dependecies
         run: apt update && apt-get install -y build-essential autoconf libtool pkg-config cmake
       - name: Clone grpc repo
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2.3.5
         with:
           repository: "grpc/grpc"
           path: tmp/grpc
