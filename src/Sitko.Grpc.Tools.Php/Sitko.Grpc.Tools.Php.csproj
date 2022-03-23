@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.Tools" Version="2.39.1" PrivateAssets="None" />
+    <PackageReference Include="Grpc.Tools" Version="2.45.0" PrivateAssets="None" />
     <None Include="..\..\LICENSE.md" Pack="true" PackagePath="LICENSE.md" />
     <None Include="..\..\packageIcon.png" Pack="true" PackagePath="\" />
     <None Pack="true" PackagePath="buildTransitive" Include="Build/**/*.xml; Build/**/*.props; Build/**/*.targets;" />
